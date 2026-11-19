@@ -3,15 +3,21 @@ public static class Probe {
     Console.WriteLine(">>> Проба <<<");
 
     Guild probeGuild = new Guild("Учебная гильдия");
-    Hero probeWarrior = new Hero("Учебный воин", 150);
+    probeGuild.AddHero(new Hero("Учебный воин", 150));
+    probeGuild.AddHero(new Hero("Учебный маг", 90));
 
-    probeGuild.Heroes.Add(probeWarrior);
-    probeGuild.Heroes.Add(probeWarrior);
-    Console.WriteLine($"Записей: {probeGuild.Heroes.Count}");
+    List<Hero> copy = probeGuild.GetMembers();
+    copy.Clear();
+    Console.WriteLine($"В копии: {copy.Count}");
+    Console.WriteLine($"В гильдии: {probeGuild.MemberCount}");
 
-    probeWarrior.TakeDamage(30);
-    foreach (Hero hero in probeGuild.Heroes) {
-        Console.WriteLine($"{hero.Name}: {hero.Health}");
+    List<Hero> again = probeGuild.GetMembers();
+    again[0].TakeDamage(50);
+    Hero? warrior = probeGuild.FindHeroByName("Учебный воин");
+    if (warrior != null) {
+        Console.WriteLine($"Здоровье воина в гильдии: {warrior.Health}");
     }
 }
+
+
 }
