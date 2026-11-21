@@ -3,27 +3,21 @@ public static class Probe {
     Console.WriteLine(">>> Проба <<<");
 
     Guild probeGuild = new Guild("Учебная гильдия");
-    Hero weak = new Hero("Слабый", 80);
-    Hero tired = new Hero("Уставший", 110);
-    probeGuild.AddHero(weak);
-    probeGuild.AddHero(tired);
+    Hero master = new Hero("Учебный мастер", 110);
+    probeGuild.AddHero(master);
 
     QuestBoard probeBoard = new QuestBoard(probeGuild);
-    Quest probeQuest = new Quest(201, "Учебное дело", 100, 30);
+    Quest probeQuest = new Quest(1, "Учебное дело", 100, 10);
     probeBoard.AddQuest(probeQuest);
 
-    Console.WriteLine($"Нет поручения: {probeBoard.TryAssign(999, "Уставший")}");
-    Console.WriteLine($"Нет героя: {probeBoard.TryAssign(201, "Отсутствующий")}");
-    Console.WriteLine($"Мало здоровья: {probeBoard.TryAssign(201, "Слабый")}");
-    Console.WriteLine($"Закрыть без исполнителя: {probeBoard.TryComplete(201)}");
-
-    Console.WriteLine($"Назначить уставшего: {probeBoard.TryAssign(201, "Уставший")}");
-    tired.TakeDamage(20);
-    Console.WriteLine($"Закрыть после урона: {probeBoard.TryComplete(201)}");
-    Console.WriteLine($"Опыт: {tired.Experience}, выполнено: {probeQuest.IsCompleted}");
-
-    Console.WriteLine($"Повтор номера: {probeBoard.AddQuest(new Quest(201, "Другое", 0, 5))}");
+    Console.WriteLine($"Закрыть открытое: {probeBoard.TryComplete(1)}");
+    Console.WriteLine($"Назначить: {probeBoard.TryAssign(1, "Учебный мастер")}");
+    Console.WriteLine($"Назначить ещё раз: {probeBoard.TryAssign(1, "Учебный мастер")}");
+    Console.WriteLine($"Отменить: {probeBoard.TryCancel(1)}");
+    Console.WriteLine($"Закрыть отменённое: {probeBoard.TryComplete(1)}");
+    Console.WriteLine($"Отменить ещё раз: {probeBoard.TryCancel(1)}");
+    Console.WriteLine(probeQuest.GetInfo());
+    Console.WriteLine($"Опыт: {master.Experience}");
 }
-
 
 }
