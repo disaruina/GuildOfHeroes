@@ -21,7 +21,7 @@ public class Guild {
         _heroes.Add(hero);
         return true;
     }
-
+    
     public Hero? FindHeroByName(string name) {
         if (string.IsNullOrWhiteSpace(name)) {
             return null;

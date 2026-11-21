@@ -16,51 +16,21 @@ guild.AddHero(artem);
 guild.AddHero(alexander);
 guild.AddHero(sergey);
 
-List<Hero> members = guild.GetMembers();
-
-Console.WriteLine($">>> {guild.Name}: перекличка <<<");
-Console.WriteLine($"Участников: {guild.MemberCount}");
-
-if (members.Count > 0) {
-    Console.WriteLine($"Первый: {members[0].Name}");
-    Console.WriteLine($"Последний: {members[members.Count - 1].Name}");
-}
-
+Console.WriteLine($">>> {guild.Name}: участников {guild.MemberCount} <<<");
 Console.WriteLine();
-foreach (Hero hero in members) {
-    Console.WriteLine(hero.GetInfo());
-    Console.WriteLine();
+
+QuestBoard board = new QuestBoard(guild);
+
+Quest floatQuest = new Quest(101, "Вернуть поплавок", 100, 30);
+Console.WriteLine($"Поручение добавлено: {board.AddQuest(floatQuest)}");
+Console.WriteLine($">>> №{floatQuest.Id}: {floatQuest.Title} <<<");
+Console.WriteLine($"Назначение Сергея: {board.TryAssign(101, " сЕрГеЙ ")}");
+Hero? assigned = floatQuest.AssignedHero;
+if (assigned != null) {
+    Console.WriteLine($"Исполнитель: {assigned.Name}");
 }
-
-Hero? found = guild.FindHeroByName(" аРтЁм ");
-if (found != null) {
-    Console.WriteLine($"Найден по запросу « аРтЁм »: {found.Name}");
-} else {
-    Console.WriteLine("По запросу « аРтЁм » никого нет.");
-}
-
-Console.WriteLine($"Повтор Александра принят: {guild.AddHero(alexander)}");
-
-Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
-Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
-
-
-int strongCount = 0;
-foreach (Hero hero in members) {
-    if (hero.Health >= 120) {
-        strongCount += 1;
-    }
-}
-Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {strongCount}");
-
-if (members.Count > 0) {
-    Hero strongest = members[0];
-    foreach (Hero hero in members) {
-        if (hero.Health > strongest.Health) {
-            strongest = hero;
-        }
-    }
-    Console.WriteLine($"Самый здоровый: {strongest.Name} ({strongest.Health})");
-}
-Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
-Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
+Console.WriteLine($"Опыт после назначения: {sergey.Experience}");
+Console.WriteLine($"Завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после завершения: {sergey.Experience}");
+Console.WriteLine($"Повторное завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после повтора: {sergey.Experience}");
